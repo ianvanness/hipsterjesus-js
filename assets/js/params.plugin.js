@@ -2,7 +2,7 @@
     var _fields = {
         'paras': {
             'name': 'paras',
-            'default': 4,
+            'def': 4,
             'range' : {
                 'low': 1,
                 'high': 99
@@ -10,27 +10,28 @@
         },
         'type': {
             'name' : 'type',
-            'default': 'hipster-latin',
-            'values': ['hipster-latin','hipster-centric'],
+            'def': 'hipster-latin',
+            'values': ['hipster-latin','hipster-centric']
         },
         'html': {
             'name': 'html',
-            'default': 'true',
+            'def': 'true',
             'values': ['true','false']
         }
-    }
+    };
     
     var methods = {
-        init : function( opts ) {
-            var $this = $(this);
-            
+        //init : function( opts ) { // <!-- eventually
+        init : function() {
             // unused, but should take advantage of this, and add others
+            /*
             var _settings = $.extend( {
                 'form' : $('#params_form')
             }, opts );
+            */
             
             for( var p in _fields ) {
-                $( _fields[p]['name'] ).bind('change', methods.validate );
+                $( _fields[p].name ).bind('change', methods.validate );
             }
         },
         validate : function( el ) {
@@ -40,7 +41,7 @@
                     if( $('#' + el.target.id).val() >= _validator.range.low && $('#' + el.target.id).val() <= _validator.range.high ) {
                         // okay
                     } else {
-                        $('#' + el.target.id).val( _validator.default );
+                        $('#' + el.target.id).val( _validator.def );
                     }
                 break;
                 case 'html': // same type
@@ -48,7 +49,7 @@
                     if( $.inArray( $('#' + el.target.id).val(), _validator.values ) >= 0 ) {
                         // okay
                     } else {
-                        $('#' + el.target.id).val( _validator.default );
+                        $('#' + el.target.id).val( _validator.def );
                     }
                 break;
             }
@@ -61,8 +62,8 @@
             // get vals for each of the fields
             qs = '';
             qsparts = [];
-            for( p in _fields ) {
-                if( $('#' + _fields[p].name).val() != _fields[p].default ) {
+            for( var p in _fields ) {
+                if( $('#' + _fields[p].name).val() != _fields[p].def ) {
                     qp =  
                         _fields[p].name + 
                         '=' + 
